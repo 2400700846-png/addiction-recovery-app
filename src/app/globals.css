@@ -1,0 +1,48 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 42 34% 97%;
+  --foreground: 155 16% 18%;
+  --card: 0 0% 100%;
+  --card-foreground: 155 16% 18%;
+  --primary: 151 19% 40%;
+  --primary-foreground: 0 0% 100%;
+  --muted: 40 23% 92%;
+  --muted-foreground: 154 8% 44%;
+  --border: 39 17% 87%;
+  --accent: 35 51% 91%;
+  --accent-foreground: 155 16% 22%;
+}
+
+.dark {
+  --background: 156 16% 10%;
+  --foreground: 40 25% 93%;
+  --card: 155 14% 14%;
+  --card-foreground: 40 25% 93%;
+  --primary: 150 23% 58%;
+  --primary-foreground: 155 25% 10%;
+  --muted: 155 12% 20%;
+  --muted-foreground: 150 10% 67%;
+  --border: 155 10% 25%;
+  --accent: 38 20% 22%;
+  --accent-foreground: 40 25% 93%;
+}
+
+* { border-color: hsl(var(--border)); }
+html { scroll-behavior: smooth; }
+body {
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+  font-family: Arial, Helvetica, sans-serif;
+}
+button, input, select, textarea { font: inherit; }
+::selection { background: #cbd9cf; color: #24362c; }
+
+@keyframes breathe {
+  0%, 100% { transform: scale(.76); opacity: .62; }
+  50% { transform: scale(1.08); opacity: 1; }
+}
+.breathe-orb { animation: breathe 8s ease-in-out infinite; }
