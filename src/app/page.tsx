@@ -10,7 +10,7 @@ export default async function HomePage() {
     <main className="min-h-screen overflow-hidden">
       <header className="mx-auto flex max-w-7xl items-center justify-between px-5 py-6 sm:px-8">
         <Link href="/" className="flex items-center gap-2 text-primary">
-          <Sprout size={22} /> <span className="font-display text-xl font-semibold text-foreground">Steady</span>
+          <span className="font-display text-xl font-semibold text-foreground">Steady</span>
         </Link>
         <div className="flex items-center gap-2">
           <Link href="/login"><Button variant="ghost">Sign in</Button></Link>
@@ -20,7 +20,7 @@ export default async function HomePage() {
       <section className="mx-auto grid max-w-7xl items-center gap-12 px-5 pb-20 pt-12 sm:px-8 lg:grid-cols-[1.05fr_.95fr] lg:gap-20 lg:pb-28 lg:pt-20">
         <div className="relative z-10">
           <p className="mb-5 inline-flex items-center gap-2 rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium text-primary">
-            <Sparkles size={14} /> Recovery, at your pace
+             Recovery, at your pace
           </p>
           <h1 className="max-w-2xl font-display text-5xl leading-[1.08] tracking-tight sm:text-6xl lg:text-7xl">
             A little steadier, <span className="text-primary">one day at a time.</span>

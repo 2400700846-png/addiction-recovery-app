@@ -26,7 +26,7 @@ export function DashboardContent({
           <h1 className="mt-1 font-display text-3xl sm:text-4xl">{discreet ? "Welcome back" : `Welcome, ${name}`}</h1>
           <p className="mt-2 text-sm text-muted-foreground">No need to have it all figured out. Just start where you are.</p>
         </div>
-        <Link href="/emergency"><Button variant="outline"><Heart size={16} /> I could use support</Button></Link>
+        <Link href="/emergency"><Button variant="outline">For support</Button></Link>
       </div>
       <ClockCard startDate={startDate} moneySavedPerDay={moneySavedPerDay} />
       <div className="grid gap-6 xl:grid-cols-[1.05fr_.95fr]">

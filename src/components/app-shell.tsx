@@ -44,17 +44,18 @@ export function AppShell({
       <div className="min-h-screen">
         <Header discreet={discreet} onDiscreetChange={setDiscreet} onSignOut={signOut} />
         <div className="mx-auto flex max-w-7xl gap-8 px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-          <aside className="hidden w-56 shrink-0 lg:block">
+          <aside className="hidden w-48 shrink-0 border-r border-border pr-5 md:block lg:w-56">
             <div className="sticky top-8">
               <p className="mb-4 px-3 text-xs font-semibold uppercase tracking-[.15em] text-muted-foreground">
                 {discreet ? "Your space" : "Your recovery"}
               </p>
-              <nav className="space-y-1">
+              <nav aria-label="Main navigation" className="space-y-1">
                 {routes.map(({ href, label, discreetLabel, icon: Icon }) => {
                   const active = pathname === href;
                   return (
                     <Link
                       key={href}
+                      aria-current={active ? "page" : undefined}
                       href={href}
                       className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
                         active ? "bg-accent font-medium text-accent-foreground" : "text-muted-foreground hover:bg-muted"
@@ -83,8 +84,8 @@ export function AppShell({
           </aside>
           <main className="min-w-0 flex-1">{children}</main>
         </div>
-        <nav className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-card/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur lg:hidden">
-          {routes.slice(0, 3).map(({ href, label, discreetLabel, icon: Icon }) => (
+        <nav aria-label="Main navigation" className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-card/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur md:hidden">
+          {routes.map(({ href, label, discreetLabel, icon: Icon }) => (
             <Link
               key={href}
               href={href}

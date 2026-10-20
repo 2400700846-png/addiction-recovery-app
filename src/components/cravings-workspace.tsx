@@ -172,7 +172,7 @@ function CravingsContent({ discreet }: { discreet: boolean }) {
                     ))}
                   </div>
                 </div>
-                <div className="space-y-2"><Label htmlFor="notes">Anything else you want to remember?</Label><textarea id="notes" value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={2000} rows={3} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" placeholder="Optional — a few words are enough." /></div>
+                <div className="space-y-2"><Label htmlFor="notes">Anything else you want to remember?</Label><textarea id="notes" value={notes} onChange={(event) => setNotes(event.target.value)} maxLength={2000} rows={3} className="w-full rounded-xl border border-border bg-background px-3 py-2 text-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary" placeholder="Optional- extra words for the day." /></div>
                 {error ? <p role="alert" className="text-sm text-rose">{error}</p> : null}
                 {notice ? <p role="status" className="text-sm text-primary">{notice}</p> : null}
                 <Button type="submit" disabled={busy}>{busy ? "Saving..." : "Save check-in"}</Button>
@@ -182,7 +182,7 @@ function CravingsContent({ discreet }: { discreet: boolean }) {
           <div className="space-y-6">
             <CravingChart logs={logs} />
             <Card>
-              <CardHeader><CardTitle>Recent check-ins</CardTitle><CardDescription>Your last seven days. Only you can see these.</CardDescription></CardHeader>
+              <CardHeader><CardTitle>Recent check-ins</CardTitle><CardDescription>Your last seven days.</CardDescription></CardHeader>
               <CardContent>
                 {logs.length ? (
                   <ul className="max-h-80 space-y-3 overflow-auto">

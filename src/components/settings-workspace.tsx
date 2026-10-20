@@ -100,8 +100,8 @@ export function SettingsWorkspace() {
           <CardContent>
             <form onSubmit={saveClock} className="space-y-4">
               <div className="space-y-2"><Label htmlFor="startDate">{discreet ? "Timer start" : "Recovery start date and time"}</Label><Input id="startDate" type="datetime-local" value={startDate} onChange={(event) => setStartDate(event.target.value)} max={localDateTime(new Date().toISOString())} required /></div>
-              <div className="space-y-2"><Label htmlFor="target">What is this goal about?</Label><Input id="target" value={target} onChange={(event) => setTarget(event.target.value)} maxLength={80} placeholder={discreet ? "A personal goal" : "Optional — e.g. alcohol, nicotine, or a habit"} required /></div>
-              <div className="space-y-2"><Label htmlFor="money">{discreet ? "Daily savings estimate (UGX)" : "Estimated money saved each day (UGX)"}</Label><Input id="money" type="number" min="0" max="100000" step="0.01" value={money} onChange={(event) => setMoney(event.target.value)} required /></div>
+              <div className="space-y-2"><Label htmlFor="target">What is this goal about?</Label><Input id="target" value={target} onChange={(event) => setTarget(event.target.value)} maxLength={80} placeholder={discreet ? "A personal goal" : "forexample alcohol or a habit"} required /></div>
+              <div className="space-y-2"><Label htmlFor="money">{discreet ? "Daily savings estimate (UGX)" : "Estimated money saved each day (UGX)"}</Label><Input id="money" type="number" min="0" max="100000"  value={money} onChange={(event) => setMoney(event.target.value)} required /></div>
               {clockError ? <p role="alert" className="text-sm text-rose">{clockError}</p> : null}
               {clockMessage ? <p role="status" className="text-sm text-primary">{clockMessage}</p> : null}
               <Button disabled={busy} type="submit">{busy ? "Saving..." : clock ? "Save changes" : "Set up my clock"}</Button>

@@ -17,8 +17,8 @@ const config: Config = {
         border: "hsl(var(--border))",
         accent: "hsl(var(--accent))",
         "accent-foreground": "hsl(var(--accent-foreground))",
-        rose: "#bd7169",
-        sage: "#647e70",
+        rose: "#e2c6c3",
+        sage: "#619ad2",
       },
       boxShadow: {
         soft: "0 14px 40px rgba(57, 66, 58, 0.07)",
