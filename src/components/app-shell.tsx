@@ -43,10 +43,10 @@ export function AppShell({
     <PrivacyContext.Provider value={{ discreet }}>
       <div className="min-h-screen">
         <Header discreet={discreet} onDiscreetChange={setDiscreet} onSignOut={signOut} />
-        <div className="mx-auto flex max-w-7xl gap-8 px-4 pb-16 pt-8 sm:px-6 lg:px-8">
-          <aside className="hidden w-48 shrink-0 border-r border-border pr-5 md:block lg:w-56">
+        <div className="mx-auto flex max-w-7xl gap-3 px-2 pb-16 pt-8 sm:gap-8 sm:px-6 lg:px-8">
+          <aside className="w-12 shrink-0 border-r border-border pr-2 sm:w-48 sm:pr-5 lg:w-56">
             <div className="sticky top-8">
-              <p className="mb-4 px-3 text-xs font-semibold uppercase tracking-[.15em] text-muted-foreground">
+              <p className="mb-4 hidden px-3 text-xs font-semibold uppercase tracking-[.15em] text-muted-foreground sm:block">
                 {discreet ? "Your space" : "Your recovery"}
               </p>
               <nav aria-label="Main navigation" className="space-y-1">
@@ -56,47 +56,36 @@ export function AppShell({
                     <Link
                       key={href}
                       aria-current={active ? "page" : undefined}
+                      aria-label={discreet ? discreetLabel : label}
+                      title={discreet ? discreetLabel : label}
                       href={href}
-                      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
+                      className={`flex items-center justify-center gap-3 rounded-xl px-1 py-2.5 text-sm transition-colors sm:justify-start sm:px-3 ${
                         active ? "bg-accent font-medium text-accent-foreground" : "text-muted-foreground hover:bg-muted"
                       }`}
                     >
                       <Icon size={17} strokeWidth={1.8} />
-                      {discreet ? discreetLabel : label}
+                      <span className="hidden sm:inline">{discreet ? discreetLabel : label}</span>
                     </Link>
                   );
                 })}
               </nav>
-              <div className="mt-10 rounded-2xl bg-[#e9eee8] p-4 text-sm dark:bg-[#25352c]">
+              <div className="mt-10 hidden rounded-2xl bg-[#e9eee8] p-4 text-sm dark:bg-[#25352c] sm:block">
                 <Sparkles size={17} className="mb-3 text-sage" />
                 <p className="font-medium">{discreet ? "One moment at a time." : "Progress has many shapes."}</p>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                   {discreet ? "Small steps still count." : "You can begin again with kindness, any time."}
                 </p>
               </div>
-              <p className="mt-6 px-3 text-xs text-muted-foreground">
+              <p className="mt-6 hidden px-3 text-xs text-muted-foreground sm:block">
                 {displayName ? `Here with you, ${displayName}` : "Here with you"}
               </p>
-              <button onClick={signOut} className="mt-2 flex items-center gap-2 px-3 text-xs text-muted-foreground hover:text-foreground">
-                <AlarmClock size={14} /> Sign out
+              <button onClick={signOut} aria-label="Sign out" title="Sign out" className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground sm:justify-start">
+                <AlarmClock size={14} /> <span className="hidden sm:inline">Sign out</span>
               </button>
             </div>
           </aside>
           <main className="min-w-0 flex-1">{children}</main>
         </div>
-        <nav aria-label="Main navigation" className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-card/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur md:hidden">
-          {routes.map(({ href, label, discreetLabel, icon: Icon }) => (
-            <Link
-              key={href}
-              href={href}
-              aria-current={pathname === href ? "page" : undefined}
-              className={`flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 text-[11px] transition-colors ${pathname === href ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-muted"}`}
-            >
-              <Icon size={19} />
-              {discreet ? discreetLabel : label}
-            </Link>
-          ))}
-        </nav>
       </div>
     </PrivacyContext.Provider>
   );

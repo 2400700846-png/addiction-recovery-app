@@ -1,4 +1,4 @@
-# Steady — recovery, at your pace
+# Steady recovery, at your pace
 
 A private recovery-support web app built with Next.js App Router, TypeScript, Tailwind CSS, shadcn-style accessible primitives, Prisma, and SQLite.
 
