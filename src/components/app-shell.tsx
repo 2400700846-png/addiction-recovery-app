@@ -2,8 +2,8 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { createContext, useContext, useState, type ReactNode } from "react";
-import { Activity, AlarmClock, LayoutDashboard, Settings, Shield, Sparkles } from "lucide-react";
+import { createContext, useContext, useEffect, useState, type ReactNode } from "react";
+import { Activity, AlarmClock, LayoutDashboard, Settings, Shield, Sparkles, X } from "lucide-react";
 import { Header } from "@/components/header";
 
 type PrivacyContextValue = { discreet: boolean };
@@ -30,8 +30,18 @@ export function AppShell({
   displayName: string;
 }) {
   const [discreet, setDiscreet] = useState(initialDiscreet);
+  const [drawerOpen, setDrawerOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
+
+  useEffect(() => {
+    if (!drawerOpen) return;
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === "Escape") setDrawerOpen(false);
+    }
+    window.addEventListener("keydown", closeOnEscape);
+    return () => window.removeEventListener("keydown", closeOnEscape);
+  }, [drawerOpen]);
 
   async function signOut() {
     await fetch("/api/auth/logout", { method: "POST" });
@@ -42,11 +52,17 @@ export function AppShell({
   return (
     <PrivacyContext.Provider value={{ discreet }}>
       <div className="min-h-screen">
-        <Header discreet={discreet} onDiscreetChange={setDiscreet} onSignOut={signOut} />
-        <div className="mx-auto flex max-w-7xl gap-3 px-2 pb-16 pt-8 sm:gap-8 sm:px-6 lg:px-8">
-          <aside className="w-12 shrink-0 border-r border-border pr-2 sm:w-48 sm:pr-5 lg:w-56">
+        <Header
+          discreet={discreet}
+          onDiscreetChange={setDiscreet}
+          onSignOut={signOut}
+          onMenuClick={() => setDrawerOpen(true)}
+          menuOpen={drawerOpen}
+        />
+        <div className="mx-auto flex max-w-7xl gap-3 px-2 pb-20 pt-8 sm:gap-8 sm:px-6 lg:px-8">
+          <aside className="hidden w-48 shrink-0 border-r border-border pr-5 md:block lg:w-56">
             <div className="sticky top-8">
-              <p className="mb-4 hidden px-3 text-xs font-semibold uppercase tracking-[.15em] text-muted-foreground sm:block">
+              <p className="mb-4 px-3 text-xs font-semibold uppercase tracking-[.15em] text-muted-foreground">
                 {discreet ? "Your space" : "Your recovery"}
               </p>
               <nav aria-label="Main navigation" className="space-y-1">
@@ -56,36 +72,118 @@ export function AppShell({
                     <Link
                       key={href}
                       aria-current={active ? "page" : undefined}
-                      aria-label={discreet ? discreetLabel : label}
-                      title={discreet ? discreetLabel : label}
                       href={href}
-                      className={`flex items-center justify-center gap-3 rounded-xl px-1 py-2.5 text-sm transition-colors sm:justify-start sm:px-3 ${
+                      className={`flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
                         active ? "bg-accent font-medium text-accent-foreground" : "text-muted-foreground hover:bg-muted"
                       }`}
                     >
                       <Icon size={17} strokeWidth={1.8} />
-                      <span className="hidden sm:inline">{discreet ? discreetLabel : label}</span>
+                      {discreet ? discreetLabel : label}
                     </Link>
                   );
                 })}
               </nav>
-              <div className="mt-10 hidden rounded-2xl bg-[#e9eee8] p-4 text-sm dark:bg-[#25352c] sm:block">
+              <div className="mt-10 rounded-2xl bg-[#e9eee8] p-4 text-sm dark:bg-[#25352c]">
                 <Sparkles size={17} className="mb-3 text-sage" />
                 <p className="font-medium">{discreet ? "One moment at a time." : "Progress has many shapes."}</p>
                 <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
                   {discreet ? "Small steps still count." : "You can begin again with kindness, any time."}
                 </p>
               </div>
-              <p className="mt-6 hidden px-3 text-xs text-muted-foreground sm:block">
+              <p className="mt-6 px-3 text-xs text-muted-foreground">
                 {displayName ? `Here with you, ${displayName}` : "Here with you"}
               </p>
-              <button onClick={signOut} aria-label="Sign out" title="Sign out" className="mt-2 flex w-full items-center justify-center gap-2 rounded-xl px-3 py-2 text-xs text-muted-foreground hover:bg-muted hover:text-foreground sm:justify-start">
-                <AlarmClock size={14} /> <span className="hidden sm:inline">Sign out</span>
+              <button onClick={signOut} className="mt-2 flex items-center gap-2 px-3 text-xs text-muted-foreground hover:text-foreground">
+                <AlarmClock size={14} /> Sign out
               </button>
             </div>
           </aside>
           <main className="min-w-0 flex-1">{children}</main>
         </div>
+        {drawerOpen ? (
+          <div className="fixed inset-0 z-50 md:hidden">
+            <button
+              type="button"
+              aria-label="Close navigation menu"
+              className="absolute inset-0 bg-black/50"
+              onClick={() => setDrawerOpen(false)}
+            />
+            <aside
+              id="mobile-navigation-drawer"
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="mobile-navigation-title"
+              className="relative flex h-full w-[min(20rem,85vw)] flex-col overflow-y-auto bg-card p-5 shadow-2xl"
+            >
+              <div className="flex items-center justify-between">
+                <p id="mobile-navigation-title" className="text-xs font-semibold uppercase tracking-[.15em] text-muted-foreground">
+                  {discreet ? "Your space" : "Your recovery"}
+                </p>
+                <button
+                  type="button"
+                  aria-label="Close navigation menu"
+                  className="rounded-lg p-2 hover:bg-muted focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                  onClick={() => setDrawerOpen(false)}
+                >
+                  <X size={18} />
+                </button>
+              </div>
+              <nav aria-label="Main navigation" className="mt-5 space-y-1">
+                {routes.map(({ href, label, discreetLabel, icon: Icon }) => {
+                  const active = pathname === href;
+                  return (
+                    <Link
+                      key={href}
+                      href={href}
+                      aria-current={active ? "page" : undefined}
+                      onClick={() => setDrawerOpen(false)}
+                      className={`flex items-center gap-3 rounded-xl px-3 py-3 text-sm transition-colors ${
+                        active ? "bg-accent font-medium text-accent-foreground" : "text-muted-foreground hover:bg-muted"
+                      }`}
+                    >
+                      <Icon size={18} strokeWidth={1.8} />
+                      {discreet ? discreetLabel : label}
+                    </Link>
+                  );
+                })}
+              </nav>
+              <div className="mt-8 rounded-2xl bg-[#e9eee8] p-4 text-sm dark:bg-[#25352c]">
+                <Sparkles size={17} className="mb-3 text-sage" />
+                <p className="font-medium">{discreet ? "One moment at a time." : "Progress has many shapes."}</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">
+                  {discreet ? "Small steps still count." : "You can begin again with kindness, any time."}
+                </p>
+              </div>
+              <div className="mt-auto border-t border-border pt-4">
+                <p className="px-3 text-xs text-muted-foreground">
+                  {displayName ? `Here with you, ${displayName}` : "Here with you"}
+                </p>
+                <button
+                  onClick={signOut}
+                  className="mt-2 flex items-center gap-2 rounded-xl px-3 py-2 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"
+                >
+                  <AlarmClock size={16} /> Sign out
+                </button>
+              </div>
+            </aside>
+          </div>
+        ) : null}
+        <nav
+          aria-label="Main navigation"
+          className="fixed inset-x-0 bottom-0 z-30 flex border-t border-border bg-card/95 px-2 pb-[env(safe-area-inset-bottom)] pt-2 backdrop-blur md:hidden"
+        >
+          {routes.slice(0, 3).map(({ href, label, discreetLabel, icon: Icon }) => (
+            <Link
+              key={href}
+              href={href}
+              aria-current={pathname === href ? "page" : undefined}
+              className={`flex flex-1 flex-col items-center gap-1 rounded-lg py-1.5 text-[11px] transition-colors ${pathname === href ? "bg-primary/15 text-primary" : "text-muted-foreground hover:bg-muted"}`}
+            >
+              <Icon size={19} />
+              {discreet ? discreetLabel : label}
+            </Link>
+          ))}
+        </nav>
       </div>
     </PrivacyContext.Provider>
   );

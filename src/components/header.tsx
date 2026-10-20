@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Eye, EyeOff, Moon, Sun, Sprout } from "lucide-react";
+import { Eye, EyeOff, Menu, Moon, Sun, Sprout } from "lucide-react";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 
@@ -10,10 +10,14 @@ export function Header({
   discreet,
   onDiscreetChange,
   onSignOut,
+  onMenuClick,
+  menuOpen,
 }: {
   discreet: boolean;
   onDiscreetChange: (value: boolean) => void;
   onSignOut: () => void;
+  onMenuClick: () => void;
+  menuOpen: boolean;
 }) {
   const { theme, setTheme } = useTheme();
   const [error, setError] = useState("");
@@ -46,17 +50,31 @@ export function Header({
   return (
     <header className="border-b border-border bg-card/75">
       <div className="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-6 lg:px-8">
-        <Link href="/dashboard" className="flex items-center gap-2.5">
-          <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
-            {discreet ? <Eye size={18} /> : <Sprout size={19} />}
-          </span>
-          <span>
-            <span className="block font-display text-lg font-semibold leading-tight">{discreet ? "Day by day" : "Steady"}</span>
-            <span className="hidden text-[11px] text-muted-foreground sm:block">
-              {discreet ? "A little at a time" : "Recovery, at your pace"}
+        <div className="flex min-w-0 items-center gap-2.5">
+          <Button
+            type="button"
+            variant="ghost"
+            size="icon"
+            className="md:hidden"
+            aria-label="Open navigation menu"
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation-drawer"
+            onClick={onMenuClick}
+          >
+            <Menu size={20} />
+          </Button>
+          <Link href="/dashboard" className="flex min-w-0 items-center gap-2.5">
+            <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary text-primary-foreground">
+              {discreet ? <Eye size={18} /> : <Sprout size={19} />}
             </span>
-          </span>
-        </Link>
+            <span>
+              <span className="block font-display text-lg font-semibold leading-tight">{discreet ? "Day by day" : "Steady"}</span>
+              <span className="hidden text-[11px] text-muted-foreground sm:block">
+                {discreet ? "A little at a time" : "Recovery, at your pace"}
+              </span>
+            </span>
+          </Link>
+        </div>
         <div className="flex items-center gap-2">
           <div className="hidden items-center gap-2 sm:flex">
             <Button type="button" variant={discreet ? "secondary" : "outline"} size="sm" onClick={toggleDiscreet} disabled={busy}>
